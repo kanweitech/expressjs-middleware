@@ -1,10 +1,14 @@
 const express = require("express");
+const router = express.Router();
 
 const app = express();
 
 const port = 5000;
+// Built-in middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const router = express.Router()
+
 
 // Application-level middleware
 const loggerMiddleware = (req, res, next) => {
@@ -38,7 +42,7 @@ const createUser = (req, res) => {
 };
 router.use(fakeAuth);
 router.route("/").get(getUsers).post(createUser);
-// Built-in middleware
+
 // error-handling middleware
 const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500;

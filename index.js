@@ -75,6 +75,11 @@ const errorHandler = (err, req, res, next) => {
     }
 };
 
+app.all("*", (req, res) => {
+    res.status(404);
+    throw new Error("Route not found");
+});
+
 app.use(errorHandler);
 
 app.listen(port, () => {

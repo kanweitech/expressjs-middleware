@@ -1,7 +1,9 @@
 const express = require("express");
 const path = require("path");
+const multer = require("multer");
 const logger = require("morgan");
 const router = express.Router();
+const upload = multer({ dest: "./public/uploads" });
 
 const app = express();
 
@@ -21,8 +23,10 @@ const loggerMiddleware = (req, res, next) => {
 };
 
 app.use(loggerMiddleware);
+
 // Third party middleware
 app.use(logger("combined"));
+
 // Router-level middleware
 app.use("/api/users", router);
 
@@ -76,6 +80,18 @@ const errorHandler = (err, req, res, next) => {
             break;
     }
 };
+
+app.post(
+    "/upload", 
+    upload.single("image"), 
+    (req, res, next) => {
+        console.log(req.file, req.body);
+        res.send(req.file);
+    },
+    (err, req, res, next) => {
+        res.status(400).send({ err: err.message});
+    }
+);
 
 app.all("*", (req, res) => {
     res.status(404);

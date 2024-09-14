@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const router = express.Router();
 
 const app = express();
@@ -7,6 +8,8 @@ const port = 5000;
 // Built-in middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/static", express.static(path.join(__dirname, "public")));
+// http://localhost:5000/static/images/ex.png
 
 
 

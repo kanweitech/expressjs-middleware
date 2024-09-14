@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const logger = require("morgan");
 const router = express.Router();
 
 const app = express();
@@ -21,6 +22,7 @@ const loggerMiddleware = (req, res, next) => {
 
 app.use(loggerMiddleware);
 // Third party middleware
+app.use(logger("combined"));
 // Router-level middleware
 app.use("/api/users", router);
 
